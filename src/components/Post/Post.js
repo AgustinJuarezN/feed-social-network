@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Comment, Avatar } from "antd";
 import PostService from "../../services/post.service";
+import Editor from "../Editor/Editor";
+import "./Post.css";
 
 const Post = ({ id, body, title, userId }) => {
   const [user, setUser] = useState();
   const [comments, setComments] = useState();
   const [showComments, setShowComments] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     getOwner();
@@ -32,6 +36,28 @@ const Post = ({ id, body, title, userId }) => {
     </span>,
   ];
 
+  const handleChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setSubmitting(true);
+      const comment = {
+        body: newComment,
+        email: "test@gmail.com",
+        name: "Test",
+      };
+      const response = await PostService.instance.postComment(id, comment);
+      setComments([...comments, response.data]);
+      setSubmitting(false);
+      setNewComment("");
+    } catch (error) {
+      setSubmitting(false);
+      throw error;
+    }
+  };
+
   return (
     <Comment
       actions={actions}
@@ -45,30 +71,40 @@ const Post = ({ id, body, title, userId }) => {
       content={
         <>
           <b>{title}</b>
-          <p style={{ whiteSpace: "normal" }}>{body}</p>
+          <p className="text">{body}</p>
         </>
       }
     >
       <div>
         {showComments &&
-          comments &&
-          comments.map((comment) => (
+          comments?.length &&
+          comments.map((comment, i) => (
             <Comment
-              key={comment.id}
+              key={comment.id+i}
               author={<a>{comment?.email}</a>}
-              content={
-                <>
-                  <p style={{ whiteSpace: "normal" }}>{comment.body}</p>
-                </>
-              }
-              style={{
-                backgroundColor: "white",
-                padding: "0 10px",
-                margin: "10px 0",
-                borderRadius: 8,
-              }}
+              content={<p className="text">{comment.body}</p>}
+              className="Comment"
             />
           ))}
+        {showComments && (
+          <Comment
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            content={
+              <Editor
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                submitting={submitting}
+                value={newComment}
+                placeholder="Enter your comment"
+              />
+            }
+          />
+        )}
       </div>
     </Comment>
   );

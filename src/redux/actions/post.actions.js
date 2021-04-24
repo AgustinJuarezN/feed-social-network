@@ -4,7 +4,6 @@ import {
   FETCH_ALL_FAILURE,
 } from "../types/post.types";
 import PostService from "../../services/post.service";
-import { toast } from "react-toastify";
 
 function getAllPosts() {
   return async (dispatch) => {

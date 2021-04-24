@@ -1,0 +1,10 @@
+.Comment {
+    background-color: white;
+    padding: 0 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+.text {
+    white-space: normal !important;
+}
