@@ -25,8 +25,8 @@ Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 ## Architecure decision
-
-src
+```
+src/
   ├── components -> Reusable component
   ├── pages -> Page component
   ├── config -> Configuration file for managing environment variables
@@ -37,3 +37,5 @@ src
   │   └── reducers -> Manipulate state
   │   └── types -> Constants for types
   ├── index.js
+  
+```
