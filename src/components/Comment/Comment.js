@@ -7,7 +7,7 @@ import {
   LikeFilled,
 } from "@ant-design/icons";
 
-const ExampleComment = ({ children }) => {
+const CommentPost = ({ children, body, title, userId }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
@@ -53,10 +53,14 @@ const ExampleComment = ({ children }) => {
         />
       }
       content={
+        <>
+        <b>
+         {title}
+        </b>
         <p>
-          We supply a series of design principles, practical patterns and high
-          quality design resources (Sketch and Axure).
-        </p>
+        {body}
+       </p>
+       </>
       }
     >
       {children}
@@ -64,4 +68,4 @@ const ExampleComment = ({ children }) => {
   );
 };
 
-export default ExampleComment;
+export default CommentPost;
