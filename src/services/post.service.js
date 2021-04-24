@@ -5,7 +5,8 @@ export default class PostService {
   static instance = new PostService();
   _endpoints = {
     getAll: config.JSONPLACEHOLDER_API_URL + "/posts",
-    getOwner: config.JSONPLACEHOLDER_API_URL + "/users",
+    getOwner: config.JSONPLACEHOLDER_API_URL + "/users/:id",
+    getComments: config.JSONPLACEHOLDER_API_URL + "/posts/:id/comments",
   };
 
   getAll = async () => {
@@ -13,6 +14,12 @@ export default class PostService {
   };
 
   getCommentOwner = async (userId) => {
-    return await httpClient.get(`${this._endpoints.getOwner}/${userId}`);
+    const url = this._endpoints.getOwner.replace(":id", userId);
+    return await httpClient.get(url);
+  };
+
+  getComments = async (postId) => {
+    const url = this._endpoints.getComments.replace(":id", postId);
+    return await httpClient.get(url);
   };
 }
